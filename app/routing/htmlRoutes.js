@@ -7,7 +7,7 @@ const path = require("path");
 module.exports = function (app) {
     // Basic route that sends the user first to the AJAX Page
     app.get("/", function (req, res) {
-        let filepath = path.join(__dirname, "../public/home.html");
+        var filepath = path.join(__dirname, "../public/home.html");
         console.log(`Sending ${filepath}`);
         res.sendFile(filepath);
     });
