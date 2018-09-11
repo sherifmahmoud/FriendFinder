@@ -1,28 +1,12 @@
 const NUM_QUESTIONS = 10;
-let friends = [];
+let friends = [];//will be used to save the friends data
 
-initialize();
+initialize();//initializes the friends array with seed data
 function Friend(name, photo, scores) {
     this.name = name;
     this.photo = photo;
     this.scores = scores;
-    this.findClosestFriend = function () {
-        console.log('In findClosestFriend');
-        var lowestScoreDifference = 40;//start with the max total difference between two persons
-        var closestFriend;
-        //loop on all friends
-        for (var i = 0; i < friends.length; i++) {
-            //if it's not the current friend
-            if (this.name !== friends[i]) {
-                var scoreDifference = calculateScoresDifference(this, friends[i]);
-                if (scoreDifference < lowestScoreDifference) {
-                    closestFriend = friends[i];
-                    lowestScoreDifference = scoreDifference;
-                }
-            }
-        }
-        return closestFriend;
-    }
+    this.findMostCompatible = findMostCompatible;
 }
 
 function calculateScoresDifference(friend1, friend2) {
@@ -55,21 +39,39 @@ function initialize() {
         for (var i = 0; i < friends.length; i++) {
             //make an array of 10 scores 1-5 inclusive
             var randomScores = [];
-            const min = 1;
-            const max = 5;
             for (var q = 0; q < 10; q++) {
-                /**
-                 * Returns a random integer between min (inclusive) and max (inclusive)
-                 * Using Math.floor() will give a uniform distribution!
-                 */
-                score = Math.floor(Math.random() * (max - min + 1)) + min;
+                randomIntegerInRange(1, 5);
                 randomScores.push(score);
             }
+            //set the scores of the current friend
             friend.scores = randomScores;
         }
     });
 }
 
+function randomIntegerInRange(min, max) {
+    /**
+     * Returns a random integer between min (inclusive) and max (inclusive)
+     * Using Math.floor() will give a uniform distribution!
+     */
+    score = Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function findMostCompatible() {
+    var lowestScoreDifference = 40;//start with the max total difference between two persons
+    var mostCompatibleFriend;
+    //loop on all friends
+    for (var i = 0; i < friends.length; i++) {
+        //if it's not the current friend
+        if (this.name !== friends[i]) {
+            var scoreDifference = calculateScoresDifference(this, friends[i]);
+            if (scoreDifference < lowestScoreDifference) {
+                mostCompatibleFriend = friends[i];
+                lowestScoreDifference = scoreDifference;
+            }
+        }
+    }
+    return mostCompatibleFriend;
+}
 module.exports.Friend = Friend;
 module.exports.friends = friends;
 module.exports.addFriend = addFriend;
